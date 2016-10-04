@@ -14,7 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+SETTINGS_DIR = os.path.dirname(__file__)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'shopsys.apps.catalog',
 ]
 
 MIDDLEWARE = [
@@ -54,15 +55,19 @@ ROOT_URLCONF = 'shopsys.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+		os.path.join(SETTINGS_DIR, 'templates'),
+	],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+		'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
+        	'shopsys.utils.context_processors.shopsys',
+	    ],
         },
     },
 ]
@@ -122,4 +127,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+STATICFILES_DIRS = (
+    os.path.join(SETTINGS_DIR, 'static'),
+)
+
+# 用户上传文件位置
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
+
+SITE_NAME = '小33和xuxu'
+META_KEYWORDS = '小33和xuxu, 特价男装, 精品女鞋, 计算机图书, 双十一特惠'
+META_DESCRIPTION = '''小33和xuxu - 世界最大、最安全的网上交易平台，提供各类服饰、
+    美容、家居、数码、话费/点卡充值… 2亿优质特价商品，同时提供担保交易(先收货
+    后付款)、先行赔付、假一赔熊猫、七天无理由退换货、数码免费维修等安全交易保障
+    服务，让你全面安心享受网上购物乐趣！'''
